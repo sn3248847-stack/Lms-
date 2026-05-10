@@ -19,7 +19,21 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.http import JsonResponse
+
+def api_root_view(request):
+    return JsonResponse({
+        "status": "online",
+        "message": "Nexus LMS API is running successfully.",
+        "endpoints": {
+            "api_root": "/api/",
+            "admin_panel": "/admin/",
+            "user_management": "/api/users/"
+        }
+    })
+
 urlpatterns = [
+    path('', api_root_view, name='api-root-status'),
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/', include('courses.urls')),
